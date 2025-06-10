@@ -9,7 +9,6 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1000)]
 public class ScoreManager : MonoBehaviour
 {
-    
     [Header("HUDs")]
     [SerializeField] private Canvas hudCanvas;
     [SerializeField] private Canvas endCanvas;
@@ -31,7 +30,6 @@ public class ScoreManager : MonoBehaviour
     private float _cachedTime;
     private bool _canLoadMenu;
     private bool _cachedDidWin;
-    
     
     private void WinGame(Vector3 _) => OnBeginEndGame(true);
     private void LoseGame(Vector3 _) => OnBeginEndGame(false);
@@ -64,24 +62,18 @@ public class ScoreManager : MonoBehaviour
     //These need to be enabled as the developer adds them...
     private void OnEnable()
     {
-        print("Fix Score");
-        /*
-        PlayerChicken.OnPlayerCaught += LoseGame;
-        PlayerChicken.OnPlayerRescued += OnPlayerRescued;
-        PlayerChicken.OnPlayerEscaped += WinGame;
-        */
+        PlayerChicken.onPlayerCaught += LoseGame;
+        PlayerChicken.onPlayerRescued += OnPlayerRescued;
+        PlayerChicken.onPlayerEscaped += WinGame;
         SettingsManager.SaveFile.onUIScaleChanged += OnUIScaleChanged;
         SettingsManager.SaveFile.onUIScaleChanged += OnUIScaleChanged;
     }
 
     private void OnDisable()
     {
-        
-        /*
-        PlayerChicken.OnPlayerCaught -= LoseGame;
-        PlayerChicken.OnPlayerRescued -= OnPlayerRescued;
-        PlayerChicken.OnPlayerEscaped -= WinGame;
-        */
+        PlayerChicken.onPlayerCaught -= LoseGame;
+        PlayerChicken.onPlayerRescued -= OnPlayerRescued;
+        PlayerChicken.onPlayerEscaped -= WinGame;
         SettingsManager.SaveFile.onUIScaleChanged -= OnUIScaleChanged;
     }
 
@@ -108,8 +100,8 @@ public class ScoreManager : MonoBehaviour
         timeSpent.text = $"{s.Minutes}m {s.Seconds}s {s.Milliseconds}ms";
         finalScore.text = ((_cachedDidWin?1 - scoreCurve.Evaluate(_cachedTime / expectedEndTime):0) * maximumTimePoints + (pointsPerSavedChicken * GameManager.NumChickensSaved)).ToString(CultureInfo.InvariantCulture);
 
-        bool x = true;
-        //bool x = AiChicken.NumActiveAIChickens() == 0;
+        //bool x = true;
+        bool x = AIChicken.GetNumActiveChickens() == 0;
         
         //Determine which button to show
         hopeIsNotLost.SetActive(!x);

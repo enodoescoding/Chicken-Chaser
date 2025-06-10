@@ -16,8 +16,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -263,7 +261,8 @@ ModelImporter:
       - time: 0.8443505
         functionName: LandEffect
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 919132149155446097, guid: 629e0efba93d29f42a778885cb1d4240,
+          type: 3}
         floatParameter: 1
         intParameter: 0
         messageOptions: 0

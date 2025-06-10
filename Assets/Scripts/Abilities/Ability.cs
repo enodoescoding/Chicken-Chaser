@@ -5,11 +5,7 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {
     [SerializeField]
-    private Sprite icon;
-    [SerializeField]
-    private float coolDown;
-    [SerializeField]
-    private bool canBeHeld;
+    protected AbilityStats stats;
     //we need to know to whom this ablitiy belongs to
     protected Chicken owner;
     protected Animator animatorController;
@@ -21,12 +17,12 @@ public abstract class Ability : MonoBehaviour
     //getter functions for access to the private variables
     public Sprite GetIcon()
     {
-        return icon;
+        return stats.Icon;
     }
 
     public float GetCooldownPercent()
     {
-        return currentCooldownTime / coolDown;
+        return currentCooldownTime / stats.CoolDown;
     }
 
     private bool IsTriggerAnimation()
@@ -68,18 +64,18 @@ public abstract class Ability : MonoBehaviour
             currentCooldownTime = 0f;
             isReady = false;
 
-            while (currentCooldownTime < coolDown)
+            while (currentCooldownTime < stats.CoolDown)
             {
                 currentCooldownTime += Time.deltaTime;
                 //wait until the next frame
                 yield return null;
             }
             //mark the ablitity as ready and set the current time to cooldown time until the cooldown is full
-            currentCooldownTime = coolDown;
+            currentCooldownTime = stats.CoolDown;
             isReady = true;
         }
         //this will loop until the coroutine is stopped
-        while (isBeingHeld && canBeHeld);
+        while (isBeingHeld && stats.CanBeHeld);
         StopUsingAbility();
     }
 
@@ -114,7 +110,7 @@ public abstract class Ability : MonoBehaviour
 
     public virtual void ForceCancelAbility()
     {
-        currentCooldownTime = coolDown;
+        currentCooldownTime = stats.CoolDown;
         isReady = true;
         StopAllCoroutines();
         StopUsingAbility();

@@ -14,7 +14,7 @@ public class CluckAbility : Ability
 
     private void Awake()
     {
-        audioSource.GetComponentInChildren<AudioSource>();
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     public override bool CanActivate()

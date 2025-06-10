@@ -24,7 +24,7 @@ public class DashAbility : Ability
 
     private void Awake()
     {
-        rb.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         SphereCollider collider = GetComponentInChildren<SphereCollider>();
         radius = collider.radius * collider.transform.lossyScale.x;
     }
@@ -32,7 +32,7 @@ public class DashAbility : Ability
     private IEnumerator ActivateAbility(Vector3 direction ) 
     {
         // do not dash upwards
-        direction = new Vector3(direction.x, 0, direction.z) * dashDirection;
+        direction = new Vector3(direction.x, 0, direction.z) * dashDistance;
         canDash = false;
         // find the highest point on a slope
         Vector3 origin = transform.position;
@@ -41,7 +41,7 @@ public class DashAbility : Ability
 
         for (int i = 0; i < NUM_SAMPLES; i++)
         {
-            float percent = i / NUM_SAMPLES;
+            float percent = i / (float)NUM_SAMPLES;
 
             if (Physics.Raycast(start + direction * percent, Vector3.down, out RaycastHit targetHit, dashDistance, StaticUtilities.VisibilityLayer))
             {

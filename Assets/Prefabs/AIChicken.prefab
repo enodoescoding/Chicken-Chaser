@@ -40,6 +40,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3199869485871651065}
+  - component: {fileID: 3966988589092146678}
+  - component: {fileID: 3172021914419512808}
   - component: {fileID: 7789267574510289417}
   - component: {fileID: 295938024690401452}
   - component: {fileID: 679397203369883940}
@@ -70,6 +72,48 @@ Transform:
   - {fileID: 1895440163247036907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &3966988589092146678
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662061587206153138}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.2
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.32
+  m_BaseOffset: 0.16
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3172021914419512808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662061587206153138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0860343072f6d40b60f9efb5079fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 8c84d2fca909ec0498604c74d9a8b3f9, type: 2}
+  head: {fileID: 2734304907029226763}
+  foot: {fileID: 821473674308985966}
+  visibility: 1
+  faceTarget: {fileID: 7789267574510289417}
+  audioDetection: {fileID: 295938024690401452}
+  navMeshAgent: {fileID: 3966988589092146678}
+  activeHearing: {fileID: 11400000, guid: bea74cc03f6df55409ece03fb1d40aba, type: 2}
 --- !u!114 &7789267574510289417
 MonoBehaviour:
   m_ObjectHideFlags: 0

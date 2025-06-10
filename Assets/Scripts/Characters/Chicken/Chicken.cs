@@ -1,30 +1,38 @@
+using AI;
+using Interfaces;
+using ScriptableObjects;
+using System;
+using Characters;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UIElements;
 using Utilities;
+using Random = UnityEngine.Random;
 
-public abstract class Chicken : MonoBehaviour
+public abstract class Chicken : MonoBehaviour, IVisualDetectable, ITrappable
 {
-    [Header("Movement")]
-    [SerializeField]
-    protected float speed;
-    [SerializeField]
-    protected float maxSpeed;
-    [Header("Foot Management")]
-    [SerializeField]
-    protected float footRadius;
+    [SerializeField] protected ChickenStats stats;
     [Header("Sockets")]
-    [SerializeField]
-    protected Transform head;
-    [SerializeField]
-    protected Transform foot;
-    [SerializeField]
-    protected float footDistance;
+    [SerializeField] protected Transform head;
+    [SerializeField] protected Transform foot;
+    [SerializeField] private ParticleSystem landEffect;
+    protected float visibility = 1;
     protected Rigidbody physicsBody;
     protected Animator animatorController;
     protected bool isGrounded;
     protected float currentSpeed;
     protected float currentFallTime;
     protected Vector3 slopeNormal;
+    protected Collider bodyCollider;
+
+    [SerializeField] private FaceTarget faceTarget;
+    [SerializeField] private AudioDetection audioDetection;
+    [SerializeField] private NavMeshAgent navMeshAgent;
+    [SerializeField] private HearStats activeHearing;
+
+    public Action onCaught;
+    public Action onFreed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Awake()
@@ -32,6 +40,9 @@ public abstract class Chicken : MonoBehaviour
         physicsBody = GetComponent<Rigidbody>();
         // get component in a children method as the chicken will be doing the animations, not the root object or parent object.
         animatorController = GetComponentInChildren<Animator>();
+        bodyCollider = GetComponentInChildren<Collider>();
+        ChickenAnimatorReceiver car = transform.GetChild(0).GetComponent<ChickenAnimatorReceiver>();
+        car.OnLandEffect += HandleLanding;
     }
 
     // Update is called once per frame
@@ -46,7 +57,7 @@ public abstract class Chicken : MonoBehaviour
     {
         //check if the chicken is grounded, we are going spherecast downwards and detect if we've hit the floor 
         //StaticUtilities.GroundLayers helps the code know which layers to look at for floors, preventing players from registering grounded on illegal objects.
-        bool isOnGround = Physics.SphereCast(foot.position, footRadius, Vector3.down, out RaycastHit slope, footDistance, StaticUtilities.GroundLayers);
+        bool isOnGround = Physics.SphereCast(foot.position, stats.FootRadius, Vector3.down, out RaycastHit slope, stats.FootDistance, StaticUtilities.GroundLayers);
         //if the onground state is different
         if (isOnGround != isGrounded)
         {
@@ -57,7 +68,7 @@ public abstract class Chicken : MonoBehaviour
             //if we were falling
             if(currentFallTime >= 0)
             {
-                HandleLanding();
+                HandleLanding(Mathf.Max(currentFallTime / 2, 3));
                 currentFallTime = 0;
             }
         }
@@ -73,9 +84,10 @@ public abstract class Chicken : MonoBehaviour
         }
     }
 
-    protected virtual void HandleLanding()
+    protected virtual void HandleLanding(float force)
     {
-            
+        landEffect.emission.SetBurst(0, new ParticleSystem.Burst(0, Random.Range(10,20) * force));
+        landEffect.Play();
     }
     protected virtual void HandleAnims()
     {
@@ -97,6 +109,8 @@ public abstract class Chicken : MonoBehaviour
         return head.forward;
     }
 
+
+
     //abstract functions, not defined here, will be defined in the child classes.
 
     protected abstract void HandleMovement();
@@ -106,4 +120,34 @@ public abstract class Chicken : MonoBehaviour
     public abstract void OnEscaped(Vector3 position);
 
     public abstract void OnCaptured();
+
+    public void AddVisibility(float visibility)
+    {
+        this.visibility += visibility;
+    }
+
+    public void RemoveVisibility(float visibility)
+    {
+        this.visibility -= Mathf.Max(0, visibility);
+    }
+
+    public float GetVisibility()
+    {
+        return visibility;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public bool CanBeTrapped()
+    {
+        return isActiveAndEnabled;
+    }
+
+    public void OnPreCapture()
+    {
+        enabled = false;
+    }
 }
