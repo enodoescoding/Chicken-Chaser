@@ -340,11 +340,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 5340d01fa24a1434abf79b10baf18984, type: 2}
   head: {fileID: 2734304907029226763}
   foot: {fileID: 3679379785763557424}
-  visibility: 1
-  faceTarget: {fileID: 0}
-  audioDetection: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  activeHearing: {fileID: 0}
+  landEffect: {fileID: 3095555676156603147}
   pitchLimit: 30
   yawLimit: 180
   lookSpeed: 2
@@ -806,6 +802,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61f8ddca288751145acb1fe5a748a7ee, type: 3}
+--- !u!198 &3095555676156603147 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 80139270534471525, guid: 61f8ddca288751145acb1fe5a748a7ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 3164105574418101358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3796625931342048049 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2258971284688592735, guid: 61f8ddca288751145acb1fe5a748a7ee,

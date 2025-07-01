@@ -1,4 +1,5 @@
 using Characters;
+using Characters.Chicken;
 using UnityEngine;
 
 public class EndGoal : MonoBehaviour

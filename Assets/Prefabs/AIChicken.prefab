@@ -109,7 +109,11 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 8c84d2fca909ec0498604c74d9a8b3f9, type: 2}
   head: {fileID: 2734304907029226763}
   foot: {fileID: 821473674308985966}
-  visibility: 1
+  landEffect: {fileID: 3095555676156603147}
+  faceTarget: {fileID: 7789267574510289417}
+  audioDetection: {fileID: 295938024690401452}
+  navMeshAgent: {fileID: 3966988589092146678}
+  activeHearing: {fileID: 11400000, guid: bea74cc03f6df55409ece03fb1d40aba, type: 2}
   faceTarget: {fileID: 7789267574510289417}
   audioDetection: {fileID: 295938024690401452}
   navMeshAgent: {fileID: 3966988589092146678}
@@ -585,6 +589,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61f8ddca288751145acb1fe5a748a7ee, type: 3}
+--- !u!198 &3095555676156603147 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 80139270534471525, guid: 61f8ddca288751145acb1fe5a748a7ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 3164105574418101358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3796625931342048049 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2258971284688592735, guid: 61f8ddca288751145acb1fe5a748a7ee,

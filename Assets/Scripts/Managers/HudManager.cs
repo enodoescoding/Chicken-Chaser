@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UI; //needed for settings
 
-[DefaultExecutionOrder(-1000)]
 public class HudManager : MonoBehaviour
 {
     [Header("UI Interactables")]
@@ -38,7 +37,7 @@ public class HudManager : MonoBehaviour
     void Awake()
     {
         //avoid multiple ibstances of the HudManager
-        if (Instance != null & Instance != this)
+        if (Instance && Instance != this)
         {
             Destroy(Instance);
             return;
@@ -51,6 +50,18 @@ public class HudManager : MonoBehaviour
         #endif
     }
 
+    void OnEnable()
+    {
+        AIChicken.OnRegister += RegisterChicken;
+        AIChicken.OnUnRegister += UnRegisterChicken;
+    }
+    
+    void OnDisable()
+    {
+        AIChicken.OnRegister -= RegisterChicken;
+        AIChicken.OnUnRegister -= UnRegisterChicken;
+    }
+    
     #region Registering Chickens
     public void BindPlayer(PlayerChicken player)
     {

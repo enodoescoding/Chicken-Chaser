@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Characters.Chicken;
 using Managers;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,10 +33,14 @@ public class PlayerChicken : Chicken, IPortable
     protected override void Awake()
     {
         base.Awake();
-        HudManager.Instance.BindPlayer(this);
         //   rb = GetComponent<Rigidbody>();
         PlayerControls.Initialize(this);
         PlayerControls.UseGameControls();
+    }
+
+    private void Start()
+    {
+        HudManager.Instance.BindPlayer(this);
     }
 
     private void OnEnable()
@@ -118,7 +123,7 @@ public class PlayerChicken : Chicken, IPortable
             // if we are grounded then the direction we want to move should be projected on to the plane / ground. Doing this will help us move up steep slopes easier
             direction = Vector3.ProjectOnPlane(direction, slopeNormal).normalized;
         }
-        physicsBody.AddForce(transform.rotation * moveDirection * stats.Speed, ForceMode.Acceleration);
+        physicsBody.AddForce(transform.rotation * direction * stats.Speed, ForceMode.Acceleration);
         // were only dealing with the x and z axes, so we dont want to affect the falling y axes
         Vector2 groundVelocity = new Vector2(physicsBody.linearVelocity.x, physicsBody.linearVelocity.z);
         // if we are moving too fast then we need to clamp our speed
@@ -141,6 +146,7 @@ public class PlayerChicken : Chicken, IPortable
         onPlayerRescued?.Invoke();
         cluckAbility.StopUsingAbility();
         lossCam.SetActive(false);
+        enabled = true;
     }
 
     public override void OnEscaped(Vector3 position)

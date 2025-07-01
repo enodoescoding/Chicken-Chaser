@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Characters.Chicken;
 using UnityEngine;
 
 public abstract class Ability : MonoBehaviour

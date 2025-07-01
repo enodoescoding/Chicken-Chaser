@@ -2,11 +2,11 @@ using System;
 using AI;
 using Interfaces;
 using ScriptableObjects;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using Utilities;
 using System.Collections;
+using Characters.Chicken;
 using Managers;
 
 public class AIChicken : Chicken, IDetector
@@ -17,6 +17,8 @@ public class AIChicken : Chicken, IDetector
     [SerializeField] private HearStats activeHearing;
 
     private static int numActiveChickens;
+    public static event Action<AIChicken> OnRegister;
+    public static event Action<AIChicken> OnUnRegister;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -29,10 +31,8 @@ public class AIChicken : Chicken, IDetector
 
         navMeshAgent.speed = stats.MaxSpeed;
         navMeshAgent.acceleration = stats.Speed;
-
-        HudManager.Instance.RegisterChicken(this);
-        //used in the score
-        GameManager.RegisterAIChicken();
+        
+        OnRegister ? .Invoke(this);
     }
 
     private void OnEnable()
@@ -72,7 +72,7 @@ public class AIChicken : Chicken, IDetector
 
     private void OnDestroy()
     {
-        HudManager.Instance.UnRegisterChicken(this);
+        OnUnRegister ? .Invoke(this);
     }
 
     private void MoveTo(Vector3 location)
@@ -91,7 +91,7 @@ public class AIChicken : Chicken, IDetector
     public override void OnFreedFromCage()
     {
         enabled = true;
-        onFreed.Invoke();
+        onFreed ? .Invoke();
     }
 
     public override void OnEscaped(Vector3 position)
@@ -111,7 +111,7 @@ public class AIChicken : Chicken, IDetector
     public override void OnCaptured()
     {
         animatorController.SetFloat(StaticUtilities.MoveSpeedAnimID, 0);
-        onCaught.Invoke();
+        onCaught ? .Invoke();
         GameManager.PlayUISound(stats.EscapeSound);
     }
 

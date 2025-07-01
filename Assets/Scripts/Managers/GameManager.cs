@@ -99,6 +99,16 @@ namespace Managers
 
         }
 
+        void OnEnable()
+        {
+            AIChicken.OnRegister += RegisterAIChicken;
+        }
+    
+        void OnDisable()
+        {
+            AIChicken.OnRegister -= RegisterAIChicken;
+        }
+        
         public static void PlayUISound(AudioClip clip)
         {
             Instance.source.PlayOneShot(clip, SettingsManager.currentSettings.SoundVolume);
@@ -233,7 +243,7 @@ namespace Managers
             ++NumChickensSaved;
         }
 
-        public static void RegisterAIChicken()
+        public static void RegisterAIChicken(AIChicken aiChicken)
         {
             ++NumChickens;
         }
